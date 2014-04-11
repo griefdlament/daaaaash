@@ -15,21 +15,31 @@ var Brick = cc.Sprite.extend({
 		this.checkCollide();
 		if(this.started == true){
 			var pos = this.getPosition();
-			if(pos.x > screenWidth || pos.x < 0){
-				this.speed = this.speed * -1;
-				this.acceleration = this.accl * -1;
-			}
+			
+			handleOutOfScreen(pos);
+			
 			this.setPosition(cc.p(pos.x + this.speed, pos.y));
 			this.speed += this.accl;
 		}
 	},
+	
+	handleOutOfScreen: function(pos){
+		if(pos.x > screenWidth || pos.x < 0){
+			this.speed = this.speed * -1;
+			this.acceleration = this.accl * -1;
+		}
+	},
 
 	checkCollide: function(){
-		var pPos = this.player.getPosition();
+		var playerPos = this.player.getPosition();
 		var pos = this.getPosition();
-		if(Math.abs(pPos.x - pos.x) <= 50 && Math.abs(pPos.y - pos.y) <= 50){
+		if(isCollided(pos, playerPos)){
 			this.gameLayer.gameOver();
 		}
+	},
+	
+	isCollided: function(pos, playerPos){
+		return (Math.abs(playerPos.x - pos.x) <= 50 && Math.abs(playerPos.y - pos.y) <= 50);
 	},
 
 	stop: function(){

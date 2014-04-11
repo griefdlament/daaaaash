@@ -19,10 +19,14 @@ var Player = cc.Sprite.extend({
 
 	update: function(){
 		if(this.started == true){
-			var pos = this.getPosition();
-			this.setPosition(cc.p(pos.x, pos.y + this.speed));
-			this.speed += this.acceleration;
+		var pos = this.getPosition();
+			handleStart(pos);
 		}
+	},
+	
+	handleStart: function(pos){
+		this.setPosition(cc.p(pos.x, pos.y + this.speed));
+		this.speed += this.acceleration;
 	},
 
 	stop: function(){
